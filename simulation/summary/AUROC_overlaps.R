@@ -5,7 +5,7 @@ truth <- read.table(file.path(path,"stats/SIM_truth.txt"),header=T,row.names=1)
 
 # loading results table
 all <- read.table(file.path(path,"summary/30M_3rep_4TP_results.txt"),header=T,row.names=1)
-top5 <- all[,c(1,3,4,6,7)]
+top5 <- all[,c(4,5,6,8,9)]
 
 data <- list("overlaps"=all, "overlaps_top5"=top5)
 

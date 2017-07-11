@@ -41,14 +41,15 @@ catColStr <- paste("cat.col=c(\"",paste(paste(catCol),collapse="\",\""),"\")",se
 
 # graphical settings for layout
 dev.new()
-gl <- grid.layout(nrow=2,ncol=2)
+gl <- grid.layout(nrow=7,ncol=7)
 pushViewport(viewport(layout=gl))
-vp.deseq2 <- viewport(layout.pos.col=1,layout.pos.row=1)
-vp.splineTC <- viewport(layout.pos.col=2,layout.pos.row=1)
-vp.maSigPro<- viewport(layout.pos.col=1,layout.pos.row=2)
-vp.combined <- viewport(layout.pos.col=2,layout.pos.row=2)
-vp <- list(vp.deseq2,vp.splineTC,vp.maSigPro,vp.combined)
-names(vp) <- c("DESeq2","splineTC","maSigPro","combined")
+vp.deseq2 <- viewport(layout.pos.col=1:3,layout.pos.row=1:3)
+vp.splineTC <- viewport(layout.pos.col=5:7,layout.pos.row=1:3)
+vp.combined <- viewport(layout.pos.col=3:5,layout.pos.row=3:5)
+vp.maSigPro<- viewport(layout.pos.col=1:3,layout.pos.row=5:7)
+vp.impulseDE2 <- viewport(layout.pos.col=5:7,layout.pos.row=5:7)
+vp <- list(vp.deseq2,vp.splineTC,vp.combined,vp.maSigPro,vp.impulseDE2)
+names(vp) <- c("DESeq2","splineTC","combined","maSigPro","impulseDE2")
 
 for (plot in names(overlaps))
 {
@@ -80,4 +81,4 @@ for (plot in names(overlaps))
     grid.text(plot,y=unit(0.05,"npc"),gp=gpar(fontsize=20))
     popViewport()
 }
-dev.print(device=cairo_pdf,"~/Documents/phd/data/simulation/study/plots/results/GSE69822/overlaps_all_venn_new.pdf",width=20,height=20)
+dev.print(device=cairo_pdf,"~/Documents/phd/data/simulation/study/plots/results/GSE69822/overlaps_all_venn_new.pdf",width=40,height=40)

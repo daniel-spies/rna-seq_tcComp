@@ -6,6 +6,7 @@ library(RColorBrewer)
 
 path <- "~/Documents/phd/data/simulation/study/results/GSE69822"
 comp <-list.dirs(path,recursive=F,full.names=F)
+comp <- comp[-grep("shuffle",comp)]
 types <- vector("list",length(comp))
 names(types) <- comp
 

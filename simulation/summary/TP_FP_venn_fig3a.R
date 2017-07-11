@@ -7,7 +7,7 @@ library(RColorBrewer)
 ## set paths and load identifier files
 dir <- "~/Documents/phd/data/simulation/study"
 files <- list.files(file.path(dir,"results"),pattern="30M_3rep_4TP.*txt",recursive=T)
-files <- files[-grep("(noise|GSE|EBSeqHMM|nsgp|timeSeq)",files)]
+files <- files[-grep("(noise|GSE|EBSeqHMM|nsgp|FunPat|dynb|block|raw|impulseDE/|timeSeq)",files)]
 DEG <- scan(file.path(dir,"stats/DEG_IDs.txt"),what="",sep="\n")
 NEG <- scan(file.path(dir,"stats/NEG_IDs.txt"),what="",sep="\n")
 SIM <- read.table(file.path(dir,"stats/SIM_IDs.txt"),header=F,stringsAsFactors=F)

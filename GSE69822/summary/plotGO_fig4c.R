@@ -3,8 +3,8 @@
 library(gridExtra)
 library(ggplot2)
 
-topN <- 20
-path <- "~/Documents/phd/data/simulation/study/summary/GSE69822/FGNet_new"
+topN <- 10
+path <- "~/Documents/phd/data/simulation/study/summary/GSE69822/FGNet_new2"
 meth <- list.dirs(path,recursive=F,full.names=F)
 
 result_list <- vector("list",length(meth))
@@ -35,23 +35,25 @@ for (name in meth)
 }
 
 # plotting of tables
-plotNames <- c("DESeq2","pairwise","splineTC","maSigPro","DESeq2_splineTC","pairwise_splineTC","DESeq2_splineTC_maSigPro","pairwise_splineTC_maSigPro","all")
 plotList <- list("space"=ggplot() + theme_bw() + theme(plot.margin=unit(c(rep(1,4)),"npc"))) ## start with empty space
-colorList <- list("#73BF44","#0BB9E2","#D66EAA","#EAE60F",
-                    "#C9A6A9","#BFA4CB",
-                    "#D4A896","#BFA3B8",
-                    "#C21807")
+plotNames <- c("DESeq2","impulseDE2","splineTC","maSigPro",
+               "DESeq2_impulseDE2","DESeq2_splineTC","DESeq2_maSigPro","impulseDE2_splineTC","impulseDE2_maSigPro",
+               "DESeq2_splineTC_impulseDE2","maSigPro_splineTC_impulseDE2",
+               "all")
+colorList <- list("#73BF44","#8D6914","#D66EAA","#EAE60F",
+                  "#818F29","#AA927D","#C2D921","#BE6C78","#CBBC11",
+                  "#C7781D","#FF3333",
+                  "#C21807")
 names(colorList) <- plotNames
 
 # create heading
-text.size=12
+text.size=24
 plotList <- c(plotList,sapply(names(result_list[[1]]), function(label) 
     ggplot() + annotate("text", x = 4, y = 25, size=text.size, label = label) + theme_bw() + theme_void(),
     simplify=F))
 
-# only plot DESeq2, splineTC and maSigPro + all
-toPlot <- plotNames[c(1,3:4,9)]
-for (label in toPlot)
+print(length(plotList))
+for (label in plotNames)
 {
     plotList[[length(plotList)+1]] <- ggplot() + annotate("text", x = 4, y = 25, size=text.size, label = label) + theme_bw() + theme_void()
     for (clust in names(result_list[[label]]))
@@ -81,7 +83,11 @@ for (label in toPlot)
 
 # transform ggplots into grobPlots
 grobPlots <- lapply(1:length(plotList), function(i) ggplotGrob(plotList[[i]]))
-ncol=length(toPlot) + 1
-nrow=length(result_list[[1]]) + 1
-grid.arrange(grobs=grobPlots,ncol=ncol,nrow=nrow,as.table=F,widths=c(0.5,rep(1,ncol-1)),heights=c(0.5,rep(1,nrow-1)))
-dev.print(cairo_pdf,"~/Documents/phd/data/simulation/study/plots/results/GSE69822/GSE69822_GO_results_new.pdf",width=50,height=50)
+ncol=length(result_list[[1]]) + 1
+nrow=c(round(length(grobPlots)/ncol/2), (length(plotNames) + 1) - round(length(grobPlots)/ncol/2))
+
+# split onto two pdf pages
+pdf("~/Documents/phd/data/simulation/study/plots/results/GSE69822/GSE69822_GO_results_new2_top10.pdf",width=200,height=200)
+grid.arrange(grobs=grobPlots[1:(ncol*nrow[1])],ncol=ncol,nrow=nrow[1],as.table=T)
+grid.arrange(grobs=grobPlots[(ncol*nrow[1]+1):length(plotList)],ncol=ncol,nrow=nrow[2],as.table=T)
+dev.off()

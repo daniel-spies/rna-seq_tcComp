@@ -19,3 +19,9 @@ Rscript $tools/pairwise.R $files $outDir/pairwise
 
 mkdir -p $outDir/FunPat
 Rscript $tools/FunPat.R $files $outDir/FunPat
+
+mkdir -p $outDir/impulseDE2
+Rscript $tools/impulseDE2.R $files $outDir/impulseDE2
+
+mkdir -p $outDir/lmms
+Rscript $tools/lmms.R $files $outDir/lmms
